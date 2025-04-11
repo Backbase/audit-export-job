@@ -69,16 +69,16 @@ Upon successful export task, run a task to cleanup legacy audit data (older than
     repoURL: "{{ .sharedACR }}"
     version: "{{ .genericIntegrationVersion }}"
     additionalClasses:
-      - ewb-common-configs
+      - common-configs
     tags:
       - custom
     values:
       replicaCount: 1
-      fullnameOverride: ewbp-audit-export-job
+      fullnameOverride: audit-export-job
       image:
         registry: project
-        repository: ewbp-audit-export-job
-        tag: *ewbpAuditExportVersion
+        repository: audit-export-job
+        tag: *auditExportVersion
       resources:
         requests:
           cpu: 3000m
@@ -95,8 +95,8 @@ Upon successful export task, run a task to cleanup legacy audit data (older than
         server.port: "8080"
         SPRING_LIQUIBASE_ENABLED: "true"
         spring.profiles.active: "json-logging"
-        backbase.stream.cxp.contentServiceUrl: "http://ewbp-contentservices-export:8080"
-        backbase.stream.cxp.serviceId: "ewbp-contentservices-export"
+        backbase.stream.cxp.contentServiceUrl: "http://contentservices-export:8080"
+        backbase.stream.cxp.serviceId: "contentservices-export"
         spring.datasource.hikari.maximum-pool-size: "100"
         spring.datasource.hikari.minimum-idle: "20"
         spring.datasource.hikari.connection-timeout: "45000"
@@ -164,17 +164,17 @@ Upon successful export task, run a task to cleanup legacy audit data (older than
 <summary>Content service (cloned)</summary>
 
 ````shell
-  ewbp-contentservices-export:
+  contentservices-export:
     chart: generic-integration
     repoURL: "{{ .sharedACR }}"
     version: "{{ .genericIntegrationVersion }}"
     additionalClasses:
-      - ewb-common-configs
+      - common-configs
       - high-service-resource
     tags:
       - custom
     values:
-      fullnameOverride: ewbp-contentservices-export
+      fullnameOverride: contentservices-export
       replicaCount: 5
       mqbroker:
         enabled: true
@@ -186,7 +186,7 @@ Upon successful export task, run a task to cleanup legacy audit data (older than
         registry: shared
       env:
         LOGGING_LEVEL_COM_BACKBASE: "DEBUG"
-        LOGGING_LEVEL_COM_EWB: "DEBUG"
+        LOGGING_LEVEL_COM: "DEBUG"
         "spring.cloud.loadbalancer.ribbon.enabled": "false"
         "spring.autoconfigure.exclude": org.springframework.cloud.netflix.eureka.loadbalancer.LoadBalancerEurekaAutoConfiguration
         "SPRING_LIQUIBASE_ENABLED": "true"
