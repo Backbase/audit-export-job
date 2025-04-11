@@ -1,0 +1,53 @@
+# API Registry client configuration
+eureka:
+  instance:
+    metadata-map:
+      public: true
+      role: live
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+# Configure Internal JWT handler
+sso:
+  jwt:
+    internal:
+      signature:
+        key:
+          type: VALUE
+          value: JWTSecretKeyDontUseInProduction!
+
+backbase:
+  stream:
+    cxp:
+      privateRepo: true
+      auditRepoId: auditFileStorage
+      auditRepoName: Audit CSV Files Storage Repository
+      storageImpl: azureblob
+      contentServiceUrl: http://contentservices:8080
+      serviceId: contentservices
+  audit:
+    batch:
+      export:
+        enabled: true
+        cronExpression: 0 0/10 * * * ?
+        chunkSize: 100000
+        batchWriteSize: 10000
+        integrityCheck: true
+        downloadCheck: true
+        daily: false
+        params:
+          requestId: 1
+          retentionDays: 180
+      cleanup:
+        enabled: false
+        chunkSize: 1
+        batchWriteSize: 100
+      csvRemoval:
+        enabled: false
+        cronExpression: 0 0/10 * * * ?
+        chunkSize: 1000
+        batchWriteSize: 100
+        params:
+          requestId: 1
+          exportJobId: 0

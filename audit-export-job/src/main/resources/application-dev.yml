@@ -1,0 +1,9 @@
+backbase:
+  security:
+    public.paths: "/**"
+    csrf:
+      enabled: false
+    mtls:
+      enabled: false
+
+

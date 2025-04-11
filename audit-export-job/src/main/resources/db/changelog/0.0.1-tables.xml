@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="Leo" id="changelog-0.0.1">
+        <createTable tableName="audit_export_report">
+            <column name="id" type="VARCHAR(36)">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="archive_start_date" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+            <column name="archive_end_date" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+            <column name="path" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="repository_id" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="BATCH_JOB_INSTANCE">
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="VERSION" type="BIGINT">
+            </column>
+            <column name="JOB_NAME" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="JOB_KEY" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="BATCH_JOB_EXECUTION">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="VERSION" type="BIGINT">
+            </column>
+            <column name="JOB_INSTANCE_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="CREATE_TIME" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+            <column name="START_TIME" type="DATETIME">
+            </column>
+            <column name="END_TIME" type="DATETIME">
+            </column>
+            <column name="STATUS" type="VARCHAR(10)">
+            </column>
+            <column name="EXIT_CODE" type="VARCHAR(2500)">
+            </column>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)">
+            </column>
+            <column name="LAST_UPDATED" type="DATETIME">
+            </column>
+        </createTable>
+        
+        <createTable tableName="BATCH_JOB_EXECUTION_PARAMS">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="PARAMETER_NAME" type="VARCHAR(100)">
+              <constraints nullable="false" />
+            </column>
+            <column name="PARAMETER_TYPE" type="VARCHAR(100)">
+              <constraints nullable="false" />
+            </column>
+            <column name="PARAMETER_VALUE" type="VARCHAR(2500)">
+            </column>
+            <column name="IDENTIFYING" type="CHAR(1)">
+              <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="BATCH_STEP_EXECUTION">
+            <column name="STEP_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="VERSION" type="BIGINT">
+              <constraints nullable="false" />
+            </column>
+            <column name="STEP_NAME" type="VARCHAR(100)">
+              <constraints nullable="false" />
+            </column>
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+              <constraints nullable="false" />
+            </column>
+            <column name="CREATE_TIME" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+            <column name="START_TIME" type="DATETIME">
+            </column>
+            <column name="END_TIME" type="DATETIME">
+            </column>
+            <column name="STATUS" type="VARCHAR(10)">
+            </column>
+            <column name="COMMIT_COUNT" type="BIGINT">
+            </column>
+            <column name="READ_COUNT" type="BIGINT">
+            </column>
+            <column name="FILTER_COUNT" type="BIGINT">
+            </column>
+            <column name="WRITE_COUNT" type="BIGINT">
+            </column>
+            <column name="READ_SKIP_COUNT" type="BIGINT">
+            </column>
+            <column name="WRITE_SKIP_COUNT" type="BIGINT">
+            </column>
+            <column name="PROCESS_SKIP_COUNT" type="BIGINT">
+            </column>
+            <column name="ROLLBACK_COUNT" type="BIGINT">
+            </column>
+            <column name="EXIT_CODE" type="VARCHAR(2500)">
+            </column>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)">
+            </column>
+            <column name="LAST_UPDATED" type="DATETIME">
+            </column>
+        </createTable>
+        
+        <createTable tableName="BATCH_STEP_EXECUTION_CONTEXT">
+            <column name="STEP_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+              <constraints nullable="false" />
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="VARCHAR(MAX)">
+            </column>
+        </createTable>
+        
+        <createTable tableName="BATCH_JOB_EXECUTION_CONTEXT">
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="SHORT_CONTEXT" type="VARCHAR(2500)">
+              <constraints nullable="false" />
+            </column>
+            <column name="SERIALIZED_CONTEXT" type="VARCHAR(MAX)">
+            </column>
+        </createTable>
+        
+        <createTable tableName="TASK_EXECUTION">
+            <column name="TASK_EXECUTION_ID" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="START_TIME" type="DATETIME">
+            </column>
+            <column name="END_TIME" type="DATETIME">
+            </column>
+            <column name="TASK_NAME" type="VARCHAR(100)">
+            </column>
+            <column name="EXIT_CODE" type="INTEGER">
+            </column>
+            <column name="EXIT_MESSAGE" type="VARCHAR(2500)">
+            </column>
+            <column name="ERROR_MESSAGE" type="VARCHAR(2500)">
+            </column>
+            <column name="LAST_UPDATED" type="DATETIME">
+            </column>
+            <column name="EXTERNAL_EXECUTION_ID" type="VARCHAR(255)">
+            </column>
+            <column name="PARENT_EXECUTION_ID" type="BIGINT">
+            </column>
+        </createTable>
+        
+        <createTable tableName="TASK_EXECUTION_PARAMS">
+            <column name="TASK_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="TASK_PARAM" type="VARCHAR(2500)">
+            </column>
+        </createTable>
+        
+        <createTable tableName="TASK_TASK_BATCH">
+            <column name="TASK_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="JOB_EXECUTION_ID" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <createTable tableName="TASK_LOCK">
+            <column name="LOCK_KEY" type="CHAR(36)">
+                <constraints nullable="false" />
+            </column>
+            <column name="REGION" type="VARCHAR(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="CLIENT_ID" type="CHAR(36)">
+            </column>
+            <column name="CREATED_DATE" type="DATETIME">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint
+          columnNames="JOB_NAME,JOB_KEY"
+          tableName="BATCH_JOB_INSTANCE"
+          constraintName="JOB_INST_UN">
+        </addUniqueConstraint>
+        
+        <addForeignKeyConstraint
+          constraintName="JOB_INST_EXEC_FK"
+          referencedTableName="BATCH_JOB_INSTANCE"
+          baseColumnNames="JOB_INSTANCE_ID"
+          baseTableName="BATCH_JOB_EXECUTION"
+          referencedColumnNames="JOB_INSTANCE_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="JOB_EXEC_PARAMS_FK"
+          referencedTableName="BATCH_JOB_EXECUTION"
+          baseColumnNames="JOB_EXECUTION_ID"
+          baseTableName="BATCH_JOB_EXECUTION_PARAMS"
+          referencedColumnNames="JOB_EXECUTION_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="JOB_EXEC_STEP_FK"
+          referencedTableName="BATCH_JOB_EXECUTION"
+          baseColumnNames="JOB_EXECUTION_ID"
+          baseTableName="BATCH_STEP_EXECUTION"
+          referencedColumnNames="JOB_EXECUTION_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="STEP_EXEC_CTX_FK"
+          referencedTableName="BATCH_STEP_EXECUTION"
+          baseColumnNames="STEP_EXECUTION_ID"
+          baseTableName="BATCH_STEP_EXECUTION_CONTEXT"
+          referencedColumnNames="STEP_EXECUTION_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="JOB_EXEC_CTX_FK"
+          referencedTableName="BATCH_JOB_EXECUTION"
+          baseColumnNames="JOB_EXECUTION_ID"
+          baseTableName="BATCH_JOB_EXECUTION_CONTEXT"
+          referencedColumnNames="JOB_EXECUTION_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="TASK_EXEC_PARAMS_FK"
+          referencedTableName="TASK_EXECUTION"
+          baseColumnNames="TASK_EXECUTION_ID"
+          baseTableName="TASK_EXECUTION_PARAMS"
+          referencedColumnNames="TASK_EXECUTION_ID" />
+          
+        <addForeignKeyConstraint
+          constraintName="TASK_EXEC_BATCH_FK"
+          referencedTableName="TASK_EXECUTION"
+          baseColumnNames="TASK_EXECUTION_ID"
+          baseTableName="TASK_TASK_BATCH"
+          referencedColumnNames="TASK_EXECUTION_ID" />
+          
+        <addPrimaryKey
+	        columnNames="LOCK_KEY, REGION"
+	        constraintName="LOCK_PK"
+	        tableName="TASK_LOCK" />
+          
+        <createSequence sequenceName="BATCH_STEP_EXECUTION_SEQ" startValue="0" minValue="0" maxValue="9223372036854775807" />
+        <createSequence sequenceName="BATCH_JOB_EXECUTION_SEQ" startValue="0" minValue="0" maxValue="9223372036854775807" />
+        <createSequence sequenceName="BATCH_JOB_SEQ" startValue="0" minValue="0" maxValue="9223372036854775807" />
+        <createSequence sequenceName="TASK_SEQ" startValue="0" minValue="0" maxValue="9223372036854775807" />
+    </changeSet>
+    <changeSet author="Leo" id="changelog-0.0.2">
+        <addColumn tableName="audit_export_report">
+            <column name="job_execution_id" type="BIGINT"/>
+        </addColumn>
+        <dropNotNullConstraint tableName="audit_export_report" columnName="archive_start_date" columnDataType="DATETIME"/>
+    </changeSet>
+    <changeSet author="Leo" id="changelog-0.0.3">
+        <addColumn tableName="audit_export_report">
+            <column name="event_id_list" type="VARCHAR(MAX)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Leo" id="changelog-0.0.4">
+        <addColumn tableName="audit_export_report">
+            <column name="object_id" type="VARCHAR(100)"/>
+        </addColumn>
+        <addColumn tableName="audit_export_report">
+            <column name="status" type="VARCHAR(50)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Leo" id="changelog-0.0.5">
+        <addColumn tableName="audit_export_report">
+            <column name="min_event_time" type="DATETIME"/>
+        </addColumn>
+        <addColumn tableName="audit_export_report">
+            <column name="max_event_time" type="DATETIME"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

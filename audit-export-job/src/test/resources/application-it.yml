@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    discovery:
+      enabled: false
+  datasource:
+    url: 'jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1'
+
+backbase.audit.batch.export.scheduled: false
+backbase:
+  stream:
+    cxp:
+      privateRepo: false
+      auditRepoId: auditFileStorage
+      auditRepoName: Audit CSV Files Storage Repository
+      storageImpl: DB
+      contentServiceUrl: http://contentservices:8080
+      serviceId: contentservices
+  audit:
+    batch:
+      export:
+        enabled: true
+        cronExpression: 0 0/1 * * * ?
+        chunkSize: 5000
+        batchWriteSize: 1000
+        integrityCheck: true
+        downloadCheck: true
+        daily: true
+        params:
+          requestId: 1
+          retentionDays: 10
+      cleanup:
+        enabled: true
+        chunkSize: 1
+        batchWriteSize: 100
+      csvRemoval:
+        enabled: true
+        cronExpression: 0 0/1 * * * ?
+        chunkSize: 1000
+        batchWriteSize: 100
+        params:
+          requestId: 1
+          exportJobId: 0

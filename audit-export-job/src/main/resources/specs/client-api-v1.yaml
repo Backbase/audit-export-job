@@ -1,0 +1,97 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /client-api/v1/process/remove/{exportJobId}:
+    delete:
+      tags:
+        - audit-file-removal
+      operationId: runAuditFileRemoval
+      parameters:
+        - name: exportJobId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobExecutionResponse'
+
+  /client-api/v1/process/export:
+    post:
+      tags:
+        - audit-log-export
+      operationId: runAuditExport
+      parameters:
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuditExportRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobExecutionResponse'
+components:
+  schemas:
+    JobExecutionResponse:
+      type: object
+      description: Batch job execution details
+      properties:
+        id:
+          type: integer
+          format: int64
+        jobName:
+          type: string
+        status:
+          type: string
+        existStatus:
+          type: string
+        readCount:
+          type: integer
+          format: int64
+        writeCount:
+          type: integer
+          format: int64
+        startTime:
+          type: string
+        endTime:
+          type: string
+        duration:
+          type: string
+        jobParams:
+          type: object
+    AuditExportRequest:
+      type: object
+      properties:
+        archiveStartDate:
+          type: string
+          description: archiveStartDate
+          format: date
+          example: '2024-11-01'
+        archiveEndDate:
+          type: string
+          description: archiveEndDate
+          format: date
+          example: '2024-11-25'
+      required:
+      - archiveEndDate

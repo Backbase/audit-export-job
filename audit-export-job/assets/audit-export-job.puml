@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+participant exportJob as "Audit Log Export Job"
+database readDB as "Audit DB read replica"
+database auditDB as "Audit DB (main)"
+database jobDB as "Batch Job DB"
+participant content as "Content Services"
+participant connector as "Azure Blob Connector"
+participant blob as "Azure Blob Storage"
+
+exportJob -> content: Check existence of audit repository <audit-csv-repository>
+content --> exportJob
+alt #lightyellow audit repository does not exist
+exportJob -> content: create audit repository <audit-csv-repository> (PRIVATE)
+content --> exportJob
+end
+loop chunking processing
+exportJob -> readDB: Read user audit messages from Audit Database \n (Read Only Replica)  by date range
+exportJob -> exportJob: split data into multiple partitions
+    group partition processing in parallel
+    exportJob -> exportJob: convert audit messages to csv text \n and compress to save storage
+    exportJob -> content: upload audit content
+    content -> connector: build file and upload
+    connector -> blob: upload file
+    blob --> connector
+    connector --> content
+    content --> exportJob
+    exportJob -> jobDB: store audit file report (jdbc)
+    exportJob <-- jobDB
+    end group
+    alt #lightpink exception during export processing
+    exportJob -> exportJob: stop the job and save exception root-cause
+    end
+    exportJob -> exportJob: audit export job complete successfully
+    exportJob -> auditDB: cleanup legacy audit data (optional)
+end loop
+@enduml
