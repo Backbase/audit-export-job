@@ -18,10 +18,12 @@ Schedule a daily task to export and upload legacy audit data  onto Blob  (older 
 Upon successful export task, run a task to cleanup legacy audit data (older than X days)
 
 ## Overview design
-![audit-job-overview.png](assets/audit-job-overview.png)
+![image](https://github.com/user-attachments/assets/200af864-8d67-4798-b455-dffa8731c18c)
+
 
 ### Sequence diagram 
-![audit-job-sequence.png](assets/audit-job-sequence.png)
+![image](https://github.com/user-attachments/assets/44c58160-515d-40d6-8df9-4aba0d50dae8)
+
 
 - Trigger audit job batch export based on a cron scheduler (configurable)
 - Check and create audit repository <audit-csv-repository> if not exists
