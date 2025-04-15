@@ -2,7 +2,7 @@
 
 
 ## Problem statement
-Due to high audit data volumes in PROD, the audit-services is slowing down which also causes impact to the Message Queue (Azure Service Bus, AWS SQS, Kafka, ActiveMQ..) (EWB Retail : more than 800Gi audit data)
+Due to high audit data volumes in PROD, the audit-services is slowing down which also causes impact to the Message Queue (Azure Service Bus, AWS SQS, Kafka, ActiveMQ..)
 ### Requirements
 
 **One time tasks**
