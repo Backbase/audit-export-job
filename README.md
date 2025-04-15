@@ -1,7 +1,5 @@
 # Audit-export-job
 
-## Confluence page
-https://backbase.atlassian.net/wiki/spaces/~63f2e1cb89de3d475af3837e/pages/5197725879/EWB+-+Audit+Export+Batch+Job
 
 ## Problem statement
 Due to high audit data volumes in PROD, the audit-services is slowing down which also causes impact to the Message Queue (Azure Service Bus, AWS SQS, Kafka, ActiveMQ..) (EWB Retail : more than 800Gi audit data)
